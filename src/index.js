@@ -5,6 +5,7 @@ const cors = require("@koa/cors");
 const bodyparser = require("koa-bodyparser");
 const json = require("koa-bodyparser");
 const { dbConnect } = require("./utils/dbConnect");
+const courseRoutes = require("./routes/course.route");
 
 const app = new Koa(); // create the new koa app
 const router = new KoaRouter(); //initialize the koa router
@@ -14,6 +15,7 @@ app.use(cors());
 app.use(bodyparser());
 app.use(json());
 app.use(router.routes()).use(router.allowedMethods());
+app.use(courseRoutes.routes());
 
 // create the Root router ( use the bodyparser - massage of the body)
 router.get("/", (ctx) => {
