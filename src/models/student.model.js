@@ -4,7 +4,11 @@ const StudentSchema = new mongoose.Schema({
   name: { type: String, require: true },
   nic: { type: String, require: true },
   age: { type: String, require: true },
-  courseId: { type: mongoose.Schema.Types.ObjectId, require: false },
+  courseId: {
+    type: mongoose.Schema.Types.ObjectId,
+    require: false,
+    ref: "courses",
+  },
 });
 
 const Student = mongoose.model("students", StudentSchema);

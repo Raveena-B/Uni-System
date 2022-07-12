@@ -45,7 +45,8 @@ const updateCourse = async (ctx) => {
 const deleteCourse = async (ctx) => {
   try {
     const courseId = ctx.params.courseId;
-    const course = await course.findbyIdAndDelete(courseId, {});
+    const course = await Course.findByIdAndDelete(courseId);
+    return (ctx.body = course);
   } catch (error) {
     return (ctx.body = { message: error.message });
   }
