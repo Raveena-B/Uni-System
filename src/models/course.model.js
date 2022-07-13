@@ -5,7 +5,11 @@ const CourseSchema = new mongoose.Schema({
   courseName: { type: String, required: true },
   courseFee: { type: Number, required: true },
   studentId: [
-    { type: mongoose.Schema.Types.ObjectId, required: false, ref: "students" },
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      required: false,
+      ref: "students",
+    },
   ],
 });
 
