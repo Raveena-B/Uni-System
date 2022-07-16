@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "webpack-dev-server --mode development --open --hot --port 3000",
+    "build": "webpack --mode production"
   },
   "keywords": [],
   "author": "",
@@ -13,7 +14,8 @@
     "axios": "^0.27.2",
     "dotenv": "^16.0.1",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.18.6",
