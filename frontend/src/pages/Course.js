@@ -6,7 +6,11 @@ const Course = () => {
   const [courses, setCourses] = useState("");
   const [courseName, setCourseName] = useState("");
   const [courseFee, setCourseFee] = useState("");
-  const [students, setStudents] = useState([]);
+  const [isEditClick, setIsEditClick] = useState("");
+
+  const [editId, setEditId] = useState("");
+  const [editName, setEditName] = useState("");
+  const [editFee, setEditFee] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -33,6 +37,53 @@ const Course = () => {
       setCourses(res.data);
     });
   }, []);
+
+  const onEditClick = (e) => {
+    e.preventDefault();
+    setEditId(e.target.id);
+    setIsEditClick(!isEditClick);
+
+    const course = courses.find((course) => course._id === e.target.id);
+    setEditName(course.courseName);
+    setEditFee(course.courseFee);
+  };
+
+  const updateHandler = (e) => {
+    e.preventDefault();
+    const courseObj = {
+      courseName: editName,
+      courseFee: editFee,
+    };
+    console.log(courseObj);
+    axios
+      .put(`${process.env.BASE_URL}/course/${editId}`, courseObj)
+      .then(() => {
+        alert("Course Updated");
+        axios.get(`${process.env.BASE_URL}/course/`).then((res) => {
+          setCourses(res.data);
+        });
+
+        setIsEditClick(false);
+      })
+      .catch((err) => {
+        alert(err.message);
+      });
+  };
+
+  const deleteHandler = (e) => {
+    e.preventDefault();
+    axios
+      .delete(`${process.env.BASE_URL}/course/${e.target.id}`)
+      .then(() => {
+        alert("Deleted Successfully");
+        axios.get(`${process.env.BASE_URL}/course/`).then((res) => {
+          setCourses(res.data);
+        });
+      })
+      .catch((err) => {
+        alert(err.message);
+      });
+  };
 
   return (
     <div>
@@ -72,11 +123,38 @@ const Course = () => {
           courses.length > 0 &&
           courses.map((course, index) => (
             <tr key={index}>
-              <td>{course.courseName}</td>
-              <td>{course.courseFee}</td>
               <td>
-                <button>Update</button>
-                <button>Delete</button>
+                {isEditClick && course._id === editId ? (
+                  <input
+                    type="text"
+                    value={editName}
+                    onChange={(e) => setEditName(e.target.value)}
+                  />
+                ) : (
+                  course.courseName
+                )}
+              </td>
+              <td>
+                {isEditClick && course._id === editId ? (
+                  <input
+                    type="number"
+                    value={editFee}
+                    onChange={(e) => setEditFee(e.target.value)}
+                  />
+                ) : (
+                  course.courseFee
+                )}
+              </td>
+              <td>
+                <button id={course._id} onClick={(e) => onEditClick(e)}>
+                  {isEditClick && course._id === editId ? "Cancel" : "Update"}
+                </button>
+                {isEditClick && course._id === editId && (
+                  <button onClick={(e) => updateHandler(e)}>Save</button>
+                )}
+                <button id={course._id} onClick={(e) => deleteHandler(e)}>
+                  Delete
+                </button>
               </td>
             </tr>
           ))}
