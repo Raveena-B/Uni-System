@@ -64,18 +64,22 @@ const Course = () => {
 
       <table border={1}>
         <tr>
-          <th>Course Name</th>
-          <th>Course Fee</th>
+          <th>CourseName</th>
+          <th>CourseFee</th>
           <th>Actions</th>
         </tr>
-        <tr>
-          <td>{courseName}</td>
-          <td>{courseFee}</td>
-          <td>
-            <button>Update</button>
-            <button>Delete</button>
-          </td>
-        </tr>
+        {courses &&
+          courses.length > 0 &&
+          courses.map((course, index) => (
+            <tr key={index}>
+              <td>{course.courseName}</td>
+              <td>{course.courseFee}</td>
+              <td>
+                <button>Update</button>
+                <button>Delete</button>
+              </td>
+            </tr>
+          ))}
       </table>
     </div>
   );
